@@ -17,7 +17,6 @@ public class PlaneController {
     public static Response createPlane(String planeId, String planeBrand, String planeModel, String planeMaxCapacity, String planeAirline) {
         try {
             int idInt, MaxCapInt;
-            boolean genderB;
 
             try {
                 idInt = Integer.parseInt(planeId);

@@ -6,16 +6,21 @@ package core.controllers;
 
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
+import core.models.Passenger;
+import core.models.Storage.PassengerStorage;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.Period;
 
 /**
  *
  * @author juand
  */
 public class PassengerController {
-    public static Response createPassenger(String id, String firstname, String lastname, String age, String gender) {
+
+    public static Response createPassenger(String id, String firstname, String lastname, LocalDate birthdate, String numberCode, String number, String country) {
         try {
-            int idInt, ageInt;
-            boolean genderB;
+            int idInt, numberCodeInt, numberInt;
 
             try {
                 idInt = Integer.parseInt(id);
@@ -34,33 +39,45 @@ public class PassengerController {
                 return new Response("Lastname must be not empty", Status.BAD_REQUEST);
             }
 
+            if (birthdate == null) {
+                return new Response("Birthdate must not be null", Status.BAD_REQUEST);
+            }
+
+            if (birthdate.isAfter(LocalDate.now())) {
+                return new Response("Birthdate cannot be in the future", Status.BAD_REQUEST);
+            }
+
+            int age = Period.between(birthdate, LocalDate.now()).getYears();
+            if (age < 0 || age > 120) {
+                return new Response("Birthdate is not realistic", Status.BAD_REQUEST);
+            }
+            
             try {
-                ageInt = Integer.parseInt(age);
-                if (ageInt < 0) {
-                    return new Response("Age must be positive", Status.BAD_REQUEST);
+                numberCodeInt = Integer.parseInt(numberCode);
+                if (numberCodeInt < 0) {
+                    return new Response("Number code must be positive", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException ex) {
-                return new Response("Age must be numeric", Status.BAD_REQUEST);
+                return new Response("Number code must be numeric", Status.BAD_REQUEST);
+            }
+            try {
+                numberInt = Integer.parseInt(number);
+                if (numberInt < 0) {
+                    return new Response("Number must be positive", Status.BAD_REQUEST);
+                }
+            } catch (NumberFormatException ex) {
+                return new Response("Number must be numeric", Status.BAD_REQUEST);
             }
 
-            switch (gender) {
-                case "M":
-                    genderB = false;
-                    break;
-                case "F":
-                    genderB = true;
-                    break;
-                default:
-                    return new Response("Gender error", Status.BAD_REQUEST);
-            }
-
-            Storage storage = Storage.getInstance();
-            if (!storage.addPerson(new Person(idInt, firstname, lastname, ageInt, genderB))) {
+            PassengerStorage storage = PassengerStorage.getInstance();
+            if (!storage.addPassenger(new Passenger(idInt, firstname, lastname, birthdate, numberCodeInt, numberInt, country))) {
                 return new Response("A person with that id already exists", Status.BAD_REQUEST);
             }
+
             return new Response("Person created successfully", Status.CREATED);
         } catch (Exception ex) {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
     }
+
 }
