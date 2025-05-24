@@ -1499,11 +1499,11 @@ public class AirportFrame extends javax.swing.JFrame {
 
     private void btnCreatePlaneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreatePlaneActionPerformed
         // TODO add your handling code here:
-        String id = txtAirplaneID.getText();
-        String brand = txtAirplaneBrand.getText();
-        String model = txtAirplaneModel.getText();
-        String maxCapacity = txtAirplaneMaxCapacity.getText();
-        String airline = txtAirplaneAirline.getText();
+        String id = txtAirplaneID.getText().trim();
+        String brand = txtAirplaneBrand.getText().trim();
+        String model = txtAirplaneModel.getText().trim();
+        String maxCapacity = txtAirplaneMaxCapacity.getText().trim();
+        String airline = txtAirplaneAirline.getText().trim();
 
         Response response = PlaneController.createPlane(id, brand, model, maxCapacity, airline);
 
@@ -1526,12 +1526,12 @@ public class AirportFrame extends javax.swing.JFrame {
 
     private void btnCreateLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateLocationActionPerformed
         // TODO add your handling code here:
-        String id = txtAirportID.getText();
-        String name = txtAirportName.getText();
-        String city = txtAirportCity.getText();
-        String country = txtAirportCountry.getText();
-        double latitude = Double.parseDouble(txtAirportLatitude.getText());
-        double longitude = Double.parseDouble(txtAirportLongitude.getText());
+        String id = txtAirportID.getText().trim();
+        String name = txtAirportName.getText().trim();
+        String city = txtAirportCity.getText().trim();
+        String country = txtAirportCountry.getText().trim();
+        double latitude = Double.parseDouble(txtAirportLatitude.getText().trim());
+        double longitude = Double.parseDouble(txtAirportLongitude.getText().trim());
 
         Response response = LocationController.createLocation(id, name, city, country, String.valueOf(latitude), String.valueOf(longitude));
 
@@ -1558,7 +1558,7 @@ public class AirportFrame extends javax.swing.JFrame {
 
     private void btnCreateFlightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateFlightActionPerformed
         // TODO add your handling code here:
-        String id = txtFlightID.getText();
+        String id = txtFlightID.getText().trim();
         String planeId = jComboBox1.getItemAt(jComboBox1.getSelectedIndex());
         String departureLocationId = jComboBox2.getItemAt(jComboBox2.getSelectedIndex());
         String arrivalLocationId = jComboBox3.getItemAt(jComboBox3.getSelectedIndex());
@@ -1608,15 +1608,15 @@ public class AirportFrame extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        long id = Long.parseLong(jTextField20.getText());
-        String firstname = jTextField22.getText();
-        String lastname = jTextField23.getText();
-        int year = Integer.parseInt(jTextField24.getText());
+        long id = Long.parseLong(jTextField20.getText().trim());
+        String firstname = jTextField22.getText().trim();
+        String lastname = jTextField23.getText().trim();
+        int year = Integer.parseInt(jTextField24.getText().trim());
         int month = Integer.parseInt(MONTH.getItemAt(MONTH5.getSelectedIndex()));
         int day = Integer.parseInt(DAY.getItemAt(DAY5.getSelectedIndex()));
-        int phoneCode = Integer.parseInt(jTextField26.getText());
-        long phone = Long.parseLong(jTextField25.getText());
-        String country = jTextField27.getText();
+        int phoneCode = Integer.parseInt(jTextField26.getText().trim());
+        long phone = Long.parseLong(jTextField25.getText().trim());
+        String country = jTextField27.getText().trim();
 
         LocalDate birthDate = LocalDate.of(year, month, day);
 
