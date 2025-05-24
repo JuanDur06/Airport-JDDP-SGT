@@ -26,6 +26,10 @@ public class PassengerController {
                 idLong = Long.valueOf(id);
                 if (idLong < 0) {
                     return new Response("Id must be positive", Status.BAD_REQUEST);
+                } else {
+                    if (idLong > 999999999999999l) {
+                        return new Response("Id must be less than 15 digits", Status.BAD_REQUEST);
+                    }
                 }
             } catch (NumberFormatException ex) {
                 return new Response("Id must be numeric", Status.BAD_REQUEST);
@@ -40,6 +44,25 @@ public class PassengerController {
             }
 
             int year = Integer.parseInt(yearStr);
+
+            try {
+                if (year < 0) {
+                    return new Response("Year must be positive", Status.BAD_REQUEST);
+                }
+
+            } catch (NumberFormatException ex) {
+                return new Response("Year must be numeric", Status.BAD_REQUEST);
+            }
+
+            
+            if(monthStr.equals("Month")){
+                return new Response("Please select a month", Status.BAD_REQUEST);
+            }
+            
+            if(dayStr.equals("Day")){
+                return new Response("Please select a day", Status.BAD_REQUEST);
+            }
+            
             int month = Integer.parseInt(monthStr);
             int day = Integer.parseInt(dayStr);
 
@@ -60,7 +83,7 @@ public class PassengerController {
             }
 
             if (birthDate.isBefore(minDate)) {
-                return new Response("The date of birth is too old to be valid.",Status.BAD_REQUEST);
+                return new Response("The date of birth is too old to be valid.", Status.BAD_REQUEST);
             }
 
             try {

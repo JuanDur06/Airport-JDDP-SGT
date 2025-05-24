@@ -394,6 +394,11 @@ public class AirportFrame extends javax.swing.JFrame {
 
         MONTH.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         MONTH.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Month" }));
+        MONTH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MONTHActionPerformed(evt);
+            }
+        });
         jPanel2.add(MONTH, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 280, -1, -1));
 
         txtPassengerFirstName.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
@@ -437,7 +442,7 @@ public class AirportFrame extends javax.swing.JFrame {
         jLabel12.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         jLabel12.setText("Brand:");
         jPanel3.add(jLabel12);
-        jLabel12.setBounds(53, 157, 52, 25);
+        jLabel12.setBounds(53, 157, 50, 25);
 
         txtAirplaneBrand.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         jPanel3.add(txtAirplaneBrand);
@@ -450,7 +455,7 @@ public class AirportFrame extends javax.swing.JFrame {
         jLabel13.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         jLabel13.setText("Model:");
         jPanel3.add(jLabel13);
-        jLabel13.setBounds(53, 216, 57, 25);
+        jLabel13.setBounds(53, 216, 55, 25);
 
         txtAirplaneMaxCapacity.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         jPanel3.add(txtAirplaneMaxCapacity);
@@ -459,7 +464,7 @@ public class AirportFrame extends javax.swing.JFrame {
         jLabel14.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         jLabel14.setText("Max Capacity:");
         jPanel3.add(jLabel14);
-        jLabel14.setBounds(53, 276, 114, 25);
+        jLabel14.setBounds(53, 276, 109, 25);
 
         txtAirplaneAirline.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         jPanel3.add(txtAirplaneAirline);
@@ -1754,6 +1759,10 @@ public class AirportFrame extends javax.swing.JFrame {
     private void YEARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_YEARActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_YEARActionPerformed
+
+    private void MONTHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MONTHActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MONTHActionPerformed
 
     /**
      * @param args the command line arguments
