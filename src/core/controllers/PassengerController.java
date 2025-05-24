@@ -10,7 +10,6 @@ import core.models.Passenger;
 import core.models.Storage.PassengerStorage;
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.Period;
 
 /**
  *
@@ -18,13 +17,14 @@ import java.time.Period;
  */
 public class PassengerController {
 
-    public static Response createPassenger(String id, String firstname, String lastname, LocalDate birthdate, String numberCode, String number, String country) {
+    public static Response createPassenger(String id, String firstname, String lastname, String yearStr, String monthStr, String dayStr, String numberCode, String number, String country) {
         try {
-            int idInt, numberCodeInt, numberInt;
+            Long idLong, numberLong;
+            int numberCodeInt;
 
             try {
-                idInt = Integer.parseInt(id);
-                if (idInt < 0) {
+                idLong = Long.valueOf(id);
+                if (idLong < 0) {
                     return new Response("Id must be positive", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException ex) {
@@ -39,19 +39,18 @@ public class PassengerController {
                 return new Response("Lastname must be not empty", Status.BAD_REQUEST);
             }
 
-            if (birthdate == null) {
-                return new Response("Birthdate must not be null", Status.BAD_REQUEST);
-            }
+            int year = Integer.parseInt(yearStr);
+            int month = Integer.parseInt(monthStr);
+            int day = Integer.parseInt(dayStr);
 
-            if (birthdate.isAfter(LocalDate.now())) {
-                return new Response("Birthdate cannot be in the future", Status.BAD_REQUEST);
-            }
-
-            int age = Period.between(birthdate, LocalDate.now()).getYears();
-            if (age < 0 || age > 120) {
-                return new Response("Birthdate is not realistic", Status.BAD_REQUEST);
-            }
+            LocalDate birthDate;
             
+            try {
+                birthDate = LocalDate.of(year, month, day);
+            } catch (DateTimeException e) {
+                return new Response("La fecha ingresada no es válida: ", Status.BAD_REQUEST);
+            }
+
             try {
                 numberCodeInt = Integer.parseInt(numberCode);
                 if (numberCodeInt < 0) {
@@ -61,20 +60,23 @@ public class PassengerController {
                 return new Response("Number code must be numeric", Status.BAD_REQUEST);
             }
             try {
-                numberInt = Integer.parseInt(number);
-                if (numberInt < 0) {
+                numberLong = Long.valueOf(number);
+                if (numberLong < 0) {
                     return new Response("Number must be positive", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException ex) {
                 return new Response("Number must be numeric", Status.BAD_REQUEST);
             }
-
-            PassengerStorage storage = PassengerStorage.getInstance();
-            if (!storage.addPassenger(new Passenger(idInt, firstname, lastname, birthdate, numberCodeInt, numberInt, country))) {
-                return new Response("A person with that id already exists", Status.BAD_REQUEST);
+            if (country.equals("")) {
+                return new Response("Country must not be empty", Status.BAD_REQUEST);
             }
 
-            return new Response("Person created successfully", Status.CREATED);
+            PassengerStorage storage = PassengerStorage.getInstance();
+            if (!storage.addPassenger(new Passenger(idLong, firstname, lastname, birthDate, numberCodeInt, numberLong, country))) {
+                return new Response("A Passenger with that id already exists", Status.BAD_REQUEST);
+            }
+
+            return new Response("Passenger created successfully", Status.CREATED);
         } catch (Exception ex) {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }

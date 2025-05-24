@@ -13,6 +13,7 @@ import core.controllers.PassengerController;
 import core.controllers.PlaneController;
 import core.controllers.utils.Response;
 import java.awt.Color;
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -1431,7 +1432,7 @@ public class AirportFrame extends javax.swing.JFrame {
 
         }
         for (int i = 1; i < jTabbedPane1.getTabCount(); i++) {
-                jTabbedPane1.setEnabledAt(i, true);
+            jTabbedPane1.setEnabledAt(i, true);
         }
         jTabbedPane1.setEnabledAt(5, false);
         jTabbedPane1.setEnabledAt(6, false);
@@ -1454,23 +1455,41 @@ public class AirportFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_userActionPerformed
 
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
-        // TODO add your handling code here:
-        long id = Long.parseLong(txtPassengerID.getText());
-        String firstname = txtPassengerFirstName.getText();
-        String lastname = txtPassengerlastName.getText();
-        int year = Integer.parseInt(YEAR.getText());
-        int month = Integer.parseInt(MONTH.getItemAt(MONTH.getSelectedIndex()));
-        int day = Integer.parseInt(DAY.getItemAt(DAY.getSelectedIndex()));
-        int phoneCode = Integer.parseInt(txtPassengerCountryPhoneCode.getText());
-        long phone = Long.parseLong(txtPassengerPhoneNumber.getText());
-        String country = txtPassengerCountry.getText();
+        String id = txtPassengerID.getText().trim();
+        String firstname = txtPassengerFirstName.getText().trim();
+        String lastname = txtPassengerlastName.getText().trim();
+        String yearStr = YEAR.getText().trim();
+        String monthStr = MONTH.getItemAt(MONTH.getSelectedIndex());
+        String dayStr = DAY.getItemAt(DAY.getSelectedIndex());
+        String numberCode = txtPassengerCountryPhoneCode.getText().trim();
+        String number = txtPassengerPhoneNumber.getText().trim();
+        String country = txtPassengerCountry.getText().trim();
 
-        LocalDate birthDate = LocalDate.of(year, month, day);
-        
-        Response response = PassengerController.createPassenger(String.valueOf(id), firstname, lastname, birthDate, String.valueOf(phoneCode), String.valueOf(phone), country);
+        // Llamada al controlador
+        Response response = PassengerController.createPassenger(id, firstname, lastname, yearStr, monthStr, dayStr, numberCode, number, country);
 
-        this.passengers.add(new Passenger(id, firstname, lastname, birthDate, phoneCode, phone, country));
-        this.userSelect.addItem("" + id);
+        // Respuesta del controlador
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(this, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(this, response.getMessage(), "Advertencia " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, response.getMessage(), "Éxito", JOptionPane.INFORMATION_MESSAGE);
+
+            // Limpiar campos si el registro fue exitoso
+            txtPassengerID.setText("");
+            txtPassengerFirstName.setText("");
+            txtPassengerlastName.setText("");
+            txtPassengerCountryPhoneCode.setText("");
+            txtPassengerPhoneNumber.setText("");
+            txtPassengerCountry.setText("");
+            YEAR.setText("");
+            MONTH.setSelectedIndex(0);
+            DAY.setSelectedIndex(0);
+
+            // Actualización de JComboBox o lista de pasajeros (si aplica)
+            userSelect.addItem(id);
+        }
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     private void btnCreatePlaneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreatePlaneActionPerformed
@@ -1480,7 +1499,7 @@ public class AirportFrame extends javax.swing.JFrame {
         String model = txtAirplaneModel.getText();
         String maxCapacity = txtAirplaneMaxCapacity.getText();
         String airline = txtAirplaneAirline.getText();
-        
+
         Response response = PlaneController.createPlane(id, brand, model, maxCapacity, airline);
 
         if (response.getStatus() >= 500) {
@@ -1489,7 +1508,7 @@ public class AirportFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
-            
+
             txtAirplaneID.setText("");
             txtAirplaneBrand.setText("");
             txtAirplaneModel.setText("");
@@ -1697,11 +1716,10 @@ public class AirportFrame extends javax.swing.JFrame {
     private void userSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userSelectActionPerformed
         try {
             String id = userSelect.getSelectedItem().toString();
-            if (! id.equals(userSelect.getItemAt(0))) {
+            if (!id.equals(userSelect.getItemAt(0))) {
                 jTextField20.setText(id);
                 jTextField28.setText(id);
-            }
-            else{
+            } else {
                 jTextField20.setText("");
                 jTextField28.setText("");
             }
