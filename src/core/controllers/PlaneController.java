@@ -16,7 +16,7 @@ import core.models.Storage.PlaneStorage;
 public class PlaneController {
     public static Response createPlane(String planeId, String planeBrand, String planeModel, String planeMaxCapacity, String planeAirline) {
         try {
-            int idInt, MaxCapInt;
+            int idInt, intMaxCap;
 
             try {
                 idInt = Integer.parseInt(planeId);
@@ -36,8 +36,8 @@ public class PlaneController {
             }
 
             try {
-                MaxCapInt = Integer.parseInt(planeMaxCapacity);
-                if (MaxCapInt < 0) {
+                intMaxCap = Integer.parseInt(planeMaxCapacity);
+                if (intMaxCap < 0) {
                     return new Response("Max capacity must be positive", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException ex) {
@@ -49,7 +49,7 @@ public class PlaneController {
             }
 
             PlaneStorage storage = PlaneStorage.getInstance();
-            if (!storage.addPlane(new Plane(String.valueOf(idInt), planeBrand, planeModel, MaxCapInt, planeAirline))) {
+            if (!storage.addPlane(new Plane(String.valueOf(idInt), planeBrand, planeModel, intMaxCap, planeAirline))) {
                 return new Response("A plane with that id already exists", Status.BAD_REQUEST);
             }
             return new Response("Plane created successfully", Status.CREATED);

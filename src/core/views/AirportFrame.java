@@ -1478,10 +1478,10 @@ public class AirportFrame extends javax.swing.JFrame {
         String id = txtAirplaneID.getText();
         String brand = txtAirplaneBrand.getText();
         String model = txtAirplaneModel.getText();
-        int maxCapacity = Integer.parseInt(txtAirplaneMaxCapacity.getText());
+        String maxCapacity = txtAirplaneMaxCapacity.getText();
         String airline = txtAirplaneAirline.getText();
         
-        Response response = PlaneController.createPlane(id, brand, model, String.valueOf(maxCapacity), airline);
+        Response response = PlaneController.createPlane(id, brand, model, maxCapacity, airline);
 
         if (response.getStatus() >= 500) {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
@@ -1495,11 +1495,9 @@ public class AirportFrame extends javax.swing.JFrame {
             txtAirplaneModel.setText("");
             txtAirplaneMaxCapacity.setText("");
             txtAirplaneAirline.setText("");
+            this.planes.add(new Plane(id, brand, model, Integer.parseInt(maxCapacity), airline));
+            this.jComboBox1.addItem(id);
         }
-        
-        this.planes.add(new Plane(id, brand, model, maxCapacity, airline));
-
-        this.jComboBox1.addItem(id);
     }//GEN-LAST:event_btnCreatePlaneActionPerformed
 
     private void btnCreateLocationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateLocationActionPerformed
