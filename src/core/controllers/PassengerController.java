@@ -44,11 +44,23 @@ public class PassengerController {
             int day = Integer.parseInt(dayStr);
 
             LocalDate birthDate;
-            
+
             try {
                 birthDate = LocalDate.of(year, month, day);
             } catch (DateTimeException e) {
-                return new Response("La fecha ingresada no es válida: ", Status.BAD_REQUEST);
+                return new Response("Date is invalid ", Status.BAD_REQUEST);
+            }
+
+            // Validación lógica de fecha
+            LocalDate today = LocalDate.now();
+            LocalDate minDate = today.minusYears(120); // Edad máxima razonable: 120 años
+
+            if (birthDate.isAfter(today)) {
+                return new Response("The date of birth cannot be in the future.", Status.BAD_REQUEST);
+            }
+
+            if (birthDate.isBefore(minDate)) {
+                return new Response("The date of birth is too old to be valid.",Status.BAD_REQUEST);
             }
 
             try {
@@ -62,10 +74,10 @@ public class PassengerController {
             try {
                 numberLong = Long.valueOf(number);
                 if (numberLong < 0) {
-                    return new Response("Number must be positive", Status.BAD_REQUEST);
+                    return new Response("Phone number must be positive", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException ex) {
-                return new Response("Number must be numeric", Status.BAD_REQUEST);
+                return new Response("Phone number must be numeric", Status.BAD_REQUEST);
             }
             if (country.equals("")) {
                 return new Response("Country must not be empty", Status.BAD_REQUEST);

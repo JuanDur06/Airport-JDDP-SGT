@@ -9,6 +9,7 @@ import core.models.Location;
 import core.models.Passenger;
 import core.models.Plane;
 import com.formdev.flatlaf.FlatDarkLaf;
+import core.controllers.LocationController;
 import core.controllers.PassengerController;
 import core.controllers.PlaneController;
 import core.controllers.utils.Response;
@@ -1487,7 +1488,6 @@ public class AirportFrame extends javax.swing.JFrame {
             MONTH.setSelectedIndex(0);
             DAY.setSelectedIndex(0);
 
-            // Actualización de JComboBox o lista de pasajeros (si aplica)
             userSelect.addItem(id);
         }
     }//GEN-LAST:event_btnRegisterActionPerformed
@@ -1528,11 +1528,27 @@ public class AirportFrame extends javax.swing.JFrame {
         double latitude = Double.parseDouble(txtAirportLatitude.getText());
         double longitude = Double.parseDouble(txtAirportLongitude.getText());
 
-        this.locations.add(new Location(id, name, city, country, latitude, longitude));
+        Response response = LocationController.createLocation(id, name, city, country, String.valueOf(latitude), String.valueOf(longitude));
 
-        this.jComboBox2.addItem(id);
-        this.jComboBox3.addItem(id);
-        this.jComboBox4.addItem(id);
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+
+            txtAirportID.setText("");
+            txtAirportName.setText("");
+            txtAirportCity.setText("");
+            txtAirportCountry.setText("");
+            txtAirportLatitude.setText("");
+            txtAirportLongitude.setText("");
+            this.locations.add(new Location(id, name, city, country, latitude, longitude));
+
+            this.jComboBox2.addItem(id);
+            this.jComboBox3.addItem(id);
+            this.jComboBox4.addItem(id);
+        }
     }//GEN-LAST:event_btnCreateLocationActionPerformed
 
     private void btnCreateFlightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateFlightActionPerformed
