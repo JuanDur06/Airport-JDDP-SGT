@@ -17,29 +17,30 @@ public class LocationController {
 
     public static Response createLocation(String id, String name, String city, String country, String latitude, String longitude) {
         try {
-            int idInt;
             double lat, lon;
 
-            // Validación de ID
-            try {
-                idInt = Integer.parseInt(id);
-                if (idInt < 0) {
-                    return new Response("ID must be positive", Status.BAD_REQUEST);
+            // Validación del ID: exactamente 3 letras mayúsculas
+            if (id.trim().equals("") || id.length() != 3) {
+                return new Response("ID must be exactly 3 characters long", Status.BAD_REQUEST);
+            }
+
+            for (int i = 0; i < id.length(); i++) {
+                char c = id.charAt(i);
+                if (!Character.isLetter(c) || !Character.isUpperCase(c)) {
+                    return new Response("Each character in ID must be an uppercase letter (A-Z)", Status.BAD_REQUEST);
                 }
-            } catch (NumberFormatException ex) {
-                return new Response("ID must be numeric", Status.BAD_REQUEST);
             }
 
             // Validaciones de campos no vacíos
-            if (name.equals("")) {
+            if (name.trim().equals("")) {
                 return new Response("Location name must not be empty", Status.BAD_REQUEST);
             }
 
-            if (city.equals("")) {
+            if (city.trim().equals("")) {
                 return new Response("City name must not be empty", Status.BAD_REQUEST);
             }
 
-            if (country.equals("")) {
+            if (country.trim().equals("")) {
                 return new Response("Country name must not be empty", Status.BAD_REQUEST);
             }
 
@@ -47,7 +48,10 @@ public class LocationController {
             try {
                 lat = Double.parseDouble(latitude);
                 if (lat < -90 || lat > 90) {
-                    return new Response("Latitude must be between -90 and 90 degrees.", Status.BAD_REQUEST);
+                    return new Response("Latitude must be between -90 and 90 degrees", Status.BAD_REQUEST);
+                }
+                if (latitude.contains(".") && latitude.split("\\.")[1].length() > 4) {
+                    return new Response("Latitude must have at most 4 decimal places", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException ex) {
                 return new Response("Latitude must be a valid number", Status.BAD_REQUEST);
@@ -57,20 +61,28 @@ public class LocationController {
             try {
                 lon = Double.parseDouble(longitude);
                 if (lon < -180 || lon > 180) {
-                    return new Response("Length should be between -180 and 180 degrees.", Status.BAD_REQUEST);
+                    return new Response("Longitude must be between -180 and 180 degrees", Status.BAD_REQUEST);
+                }
+                if (longitude.contains(".") && longitude.split("\\.")[1].length() > 4) {
+                    return new Response("Longitude must have at most 4 decimal places", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException ex) {
-                return new Response("Lenght must be a valid number", Status.BAD_REQUEST);
+                return new Response("Longitude must be a valid number", Status.BAD_REQUEST);
             }
 
-            // Intentar agregar la ubicación al storage
+            // Comprobar si ya existe una localización con ese ID
             LocationStorage storage = LocationStorage.getInstance();
-                       
-            if (!storage.addLocation(new Location(String.valueOf(idInt), name, city, country, lat, lon))) {
+            if (storage.getLocation(Integer.parseInt(id)) != null) {
                 return new Response("A location with this ID already exists", Status.BAD_REQUEST);
             }
 
-            return new Response("Location created succesfully", Status.CREATED);
+            // Crear y agregar la nueva localización
+            Location newLocation = new Location(id, name.trim(), city.trim(), country.trim(), lat, lon);
+            if (!storage.addLocation(newLocation)) {
+                return new Response("Could not add the location", Status.BAD_REQUEST);
+            }
+
+            return new Response("Location created successfully", Status.CREATED);
 
         } catch (Exception ex) {
             return new Response("Unexpected error when creating the location", Status.INTERNAL_SERVER_ERROR);

@@ -88,16 +88,16 @@ public class PassengerController {
 
             try {
                 numberCodeInt = Integer.parseInt(numberCode);
-                if (numberCodeInt < 0) {
-                    return new Response("Number code must be positive", Status.BAD_REQUEST);
+                if (numberCodeInt < 0 || numberCodeInt > 999) {
+                    return new Response("Number code must be in a range of 1 to 3 digits", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException ex) {
                 return new Response("Number code must be numeric", Status.BAD_REQUEST);
             }
             try {
                 numberLong = Long.valueOf(number);
-                if (numberLong < 0) {
-                    return new Response("Phone number must be positive", Status.BAD_REQUEST);
+                if (numberLong < 0  || numberLong > 99999999999l) {
+                    return new Response("Phone number must in a range of 1 to 11 digits", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException ex) {
                 return new Response("Phone number must be numeric", Status.BAD_REQUEST);
