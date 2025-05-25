@@ -5,6 +5,7 @@
 package main;
 
 import com.formdev.flatlaf.FlatDarkLaf;
+import core.models.dataLoader.DataLoader;
 import core.views.AirportFrame;
 import javax.swing.UIManager;
 
@@ -13,9 +14,7 @@ import javax.swing.UIManager;
  * @author juand
  */
 public class Main {
-    /**
-     * @param args the command line arguments
-     */
+
     public static void main(String args[]) {
         System.setProperty("flatlaf.useNativeLibrary", "false");
 
@@ -24,11 +23,18 @@ public class Main {
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");
         }
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AirportFrame().setVisible(true);
-            }
+
+        // --- Cargar los datos ANTES de iniciar la GUI ---
+        try {
+            DataLoader.loadData();
+        } catch (Exception e) {
+            System.err.println("Error al cargar datos:");
+            e.printStackTrace();
+        }
+
+        // --- Mostrar la ventana en el hilo de interfaz gráfica ---
+        java.awt.EventQueue.invokeLater(() -> {
+            new AirportFrame().setVisible(true);
         });
     }
 }
