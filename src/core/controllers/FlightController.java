@@ -40,27 +40,27 @@ public class FlightController {
         }
 
         // Aqui verificamos si el vuelo ya esta creado
-        if (FlightStorage.getInstance().getFlight(Integer.parseInt(id)) != null) {
+        if (FlightStorage.getInstance().getFlight(id) != null) {
             return new Response("Ya existe un vuelo con este ID.", Status.BAD_REQUEST);
         }
 
         // Aqui buscamos si el avion existe
-        Plane plane = PlaneStorage.getInstance().getPlane(Integer.parseInt(planeId));
+        Plane plane = PlaneStorage.getInstance().getPlane(planeId);
         if (plane == null) {
             return new Response("El avión especificado no existe.", Status.BAD_REQUEST);
         }
 
         // Aqui buscamos si la localizacion existe, tanto de llegada como de salida
-        Location departure = LocationStorage.getInstance().getLocation(Integer.parseInt(departureId));
+        Location departure = LocationStorage.getInstance().getLocation(departureId);
         if (departure == null) {
             return new Response("La localización de salida no es válida.", Status.BAD_REQUEST);
         }
-        Location arrival = LocationStorage.getInstance().getLocation(Integer.parseInt(arrivalId));
+        Location arrival = LocationStorage.getInstance().getLocation(arrivalId);
         if (arrival == null) {
             return new Response("La localización de llegada no es válida.", Status.BAD_REQUEST);
         }
 
-        Location scale = LocationStorage.getInstance().getLocation(Integer.parseInt(scaleId)); // Puede ser null si no hay escala
+        Location scale = LocationStorage.getInstance().getLocation(scaleId); // Puede ser null si no hay escala
 
         // Validar fecha de salida
         LocalDateTime departureDate;

@@ -37,8 +37,8 @@ public class LocationStorage {
         this.locations.add(location);
         return true;
     }
-    
-    public Location getLocation(int id) {
+
+    public Location getLocation(String id) {
         for (Location l : this.locations) {
             if (l.getAirportId().equals(id)) {
                 return l;
@@ -46,10 +46,10 @@ public class LocationStorage {
         }
         return null;
     }
-    
+
     public boolean delLocation(int id) {
-        for (Location l: this.locations) {
-            if (l.getAirportId().equals( id)) {
+        for (Location l : this.locations) {
+            if (l.getAirportId().equals(id)) {
                 this.locations.remove(l);
                 return true;
             }

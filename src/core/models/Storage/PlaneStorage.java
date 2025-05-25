@@ -37,7 +37,7 @@ public class PlaneStorage {
         return true;
     }
     
-    public Plane getPlane(int id) {
+    public Plane getPlane(String id) {
         for (Plane plane : this.planes) {
             if (plane.getId().equals(id)) {
                 return plane;
@@ -46,7 +46,7 @@ public class PlaneStorage {
         return null;
     }
     
-    public boolean delPlane(int id) {
+    public boolean delPlane(String id) {
         for (Plane person : this.planes) {
             if (person.getId().equals(id)) {
                 this.planes.remove(person);

@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * @author juand
  */
 public class FlightStorage {
+
     private static FlightStorage instance;
 
     private FlightStorage() {
@@ -36,8 +37,8 @@ public class FlightStorage {
         this.flights.add(flight);
         return true;
     }
-    
-    public Flight getFlight(int id) {
+
+    public Flight getFlight(String id) {
         for (Flight f : this.flights) {
             if (f.getId().equals(id)) {
                 return f;
@@ -45,10 +46,10 @@ public class FlightStorage {
         }
         return null;
     }
-    
-    public boolean delFlight(int id) {
-        for (Flight f: this.flights) {
-            if (f.getId().equals( id)) {
+
+    public boolean delFlight(String id) {
+        for (Flight f : this.flights) {
+            if (f.getId().equals(id)) {
                 this.flights.remove(f);
                 return true;
             }

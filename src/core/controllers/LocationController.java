@@ -21,7 +21,7 @@ public class LocationController {
 
             // Validación del ID: exactamente 3 letras mayúsculas
             if (id.trim().equals("") || id.length() != 3) {
-                return new Response("ID must be exactly 3 characters long", Status.BAD_REQUEST);
+                return new Response("Airport ID must be exactly 3 characters long", Status.BAD_REQUEST);
             }
 
             for (int i = 0; i < id.length(); i++) {
@@ -33,15 +33,15 @@ public class LocationController {
 
             // Validaciones de campos no vacíos
             if (name.trim().equals("")) {
-                return new Response("Location name must not be empty", Status.BAD_REQUEST);
+                return new Response("Airport name must not be empty", Status.BAD_REQUEST);
             }
 
             if (city.trim().equals("")) {
-                return new Response("City name must not be empty", Status.BAD_REQUEST);
+                return new Response("Airport city must not be empty", Status.BAD_REQUEST);
             }
 
             if (country.trim().equals("")) {
-                return new Response("Country name must not be empty", Status.BAD_REQUEST);
+                return new Response("Airport country must not be empty", Status.BAD_REQUEST);
             }
 
             // Validación de latitud
@@ -50,20 +50,19 @@ public class LocationController {
                 if (lat < -90 || lat > 90) {
                     return new Response("Latitude must be between -90 and 90 degrees", Status.BAD_REQUEST);
                 }
-                if (latitude.contains(".") && latitude.split("\\.")[1].length() > 4) {
+                if (Math.round(lat * 10000) != lat * 10000) {
                     return new Response("Latitude must have at most 4 decimal places", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException ex) {
                 return new Response("Latitude must be a valid number", Status.BAD_REQUEST);
             }
 
-            // Validación de longitud
             try {
                 lon = Double.parseDouble(longitude);
                 if (lon < -180 || lon > 180) {
                     return new Response("Longitude must be between -180 and 180 degrees", Status.BAD_REQUEST);
                 }
-                if (longitude.contains(".") && longitude.split("\\.")[1].length() > 4) {
+                if (Math.round(lon * 10000) != lon * 10000) {
                     return new Response("Longitude must have at most 4 decimal places", Status.BAD_REQUEST);
                 }
             } catch (NumberFormatException ex) {
@@ -72,7 +71,7 @@ public class LocationController {
 
             // Comprobar si ya existe una localización con ese ID
             LocationStorage storage = LocationStorage.getInstance();
-            if (storage.getLocation(Integer.parseInt(id)) != null) {
+            if (storage.getLocation(id) != null){
                 return new Response("A location with this ID already exists", Status.BAD_REQUEST);
             }
 

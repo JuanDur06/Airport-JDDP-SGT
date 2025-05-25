@@ -38,7 +38,7 @@ public class PassengerStorage {
         return true;
     }
     
-    public Passenger getPassenger(int id) {
+    public Passenger getPassenger(Long id) {
         for (Passenger p : this.passengers) {
             if (p.getId() == id) {
                 return p;
