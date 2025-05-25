@@ -12,11 +12,16 @@ import java.util.ArrayList;
  * @author juand
  */
 public class FlightStorage {
+
     private static FlightStorage instance;
     private ArrayList<Flight> flights;
 
     private FlightStorage() {
         this.flights = new ArrayList<>();
+    }
+
+    public ArrayList<Flight> getAll() {
+        return this.flights;
     }
 
     public static FlightStorage getInstance() {
@@ -43,4 +48,3 @@ public class FlightStorage {
         return flights;
     }
 }
-

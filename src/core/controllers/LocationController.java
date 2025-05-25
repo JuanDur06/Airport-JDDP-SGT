@@ -7,7 +7,11 @@ package core.controllers;
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
 import core.models.Location;
+import core.models.Plane;
 import core.models.Storage.LocationStorage;
+import core.models.Storage.PlaneStorage;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -85,6 +89,27 @@ public class LocationController {
 
         } catch (Exception ex) {
             return new Response("Unexpected error when creating the location", Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+    public static Response refreshLocationsTable() {
+        try {
+            ArrayList<Location> locations = LocationStorage.getInstance().getAll();
+            if (locations == null) {
+                return new Response("Ther is no locations", Status.BAD_REQUEST);
+            }
+            String[][] localizaciones = new String[locations.size()][4];
+            int i = 0;
+            for (Location location : locations) {
+                localizaciones[i][0] = location.getAirportId();
+                localizaciones[i][1] = location.getAirportName();
+                localizaciones[i][2] = location.getAirportCity();
+                localizaciones[i][3] = location.getAirportCountry();           
+                i++;
+            }
+            Arrays.sort(localizaciones, (a, b) -> Long.compare(Long.parseLong(a[0]), Long.parseLong(b[0])));
+            return new Response("Refresh succesfully", Status.CREATED, localizaciones);
+        } catch (Exception e) {
+            return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -4,7 +4,6 @@
  */
 package core.models.Storage;
 
-
 import core.models.Passenger;
 import java.util.ArrayList;
 
@@ -13,6 +12,7 @@ import java.util.ArrayList;
  * @author juand
  */
 public class PassengerStorage {
+
     private static PassengerStorage instance;
 
     private PassengerStorage() {
@@ -28,6 +28,10 @@ public class PassengerStorage {
         return instance;
     }
 
+    public ArrayList<Passenger> getAll() {
+        return this.passengers;
+    }
+
     public boolean addPassenger(Passenger passenger) {
         for (Passenger p : this.passengers) {
             if (p.getId() == passenger.getId()) {
@@ -37,7 +41,7 @@ public class PassengerStorage {
         this.passengers.add(passenger);
         return true;
     }
-    
+
     public Passenger getPassenger(Long id) {
         for (Passenger p : this.passengers) {
             if (p.getId() == id) {
@@ -46,7 +50,7 @@ public class PassengerStorage {
         }
         return null;
     }
-    
+
     public boolean delPassenger(int id) {
         for (Passenger p : this.passengers) {
             if (p.getId() == id) {

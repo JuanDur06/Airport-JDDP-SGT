@@ -8,11 +8,15 @@ import core.controllers.utils.Response;
 import core.controllers.utils.Status;
 import core.models.Flight;
 import core.models.Location;
+import core.models.Passenger;
 import core.models.Plane;
 import core.models.Storage.FlightStorage;
 import core.models.Storage.LocationStorage;
+import core.models.Storage.PassengerStorage;
 import core.models.Storage.PlaneStorage;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -20,7 +24,7 @@ import java.time.LocalDateTime;
  */
 public class FlightController {
 
-    public static Response createFlight(String id, String planeId, String departureId, String arrivalId, String scaleId, String yearStr, String monthStr, String dayStr, String hourStr, String minuteStr, String durHoursStr, String durMinutesStr, String scaleHoursStr, String scaleMinutesStr ) {
+    public static Response createFlight(String id, String planeId, String departureId, String arrivalId, String scaleId, String yearStr, String monthStr, String dayStr, String hourStr, String minuteStr, String durHoursStr, String durMinutesStr, String scaleHoursStr, String scaleMinutesStr) {
         // Aqui validamos el ID
         if (id.length() != 6) {
             return new Response("The ID must have 6 exactly characters.", Status.BAD_REQUEST);
@@ -104,7 +108,60 @@ public class FlightController {
         }
 
         FlightStorage.getInstance().addFlight(flight);
-        
+
         return new Response("Flight created successfully.", Status.OK);
     }
+
+    public static Response refreshTableMyFligths(String passengerId) {
+
+        try {
+            Long passengerLong = Long.parseLong(passengerId);
+
+            Passenger passenger = PassengerStorage.getInstance().getPassenger(passengerLong);
+            if (passenger == null) {
+                return new Response("Passenger dont found", Status.BAD_REQUEST);
+            }
+            ArrayList<Flight> fligths = passenger.getFlights();
+            String[][] myFligths = new String[fligths.size()][3];
+            int i = 0;
+            for (Flight flight : fligths) {
+                myFligths[i][0] = flight.getId();
+                myFligths[i][1] = flight.getDepartureDate().toString();
+                myFligths[i][2] = flight.calculateArrivalDate().toString();
+            }
+            Arrays.sort(myFligths, (a, b) -> Long.compare(Long.parseLong(a[0]), Long.parseLong(b[0])));
+            return new Response("Refresh succesfully", Status.CREATED, myFligths);
+
+        } catch (Exception e) {
+            return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public static Response refreshFlightsTable() {
+
+        try {
+            ArrayList<Flight> flights = FlightStorage.getInstance().getAll();
+            if (flights == null) {
+                return new Response("Ther is no flights", Status.BAD_REQUEST);
+            }
+            String[][] vuelos = new String[flights.size()][8];
+            int i = 0;
+            for (Flight flight : flights) {
+                vuelos[i][0] = flight.getId();
+                vuelos[i][1] = flight.getDepartureLocation().getAirportId();
+                vuelos[i][2] = flight.getArrivalLocation().getAirportId();
+                vuelos[i][3] = (flight.getScaleLocation() == null ? "-" : flight.getScaleLocation().getAirportId());
+                vuelos[i][4] = flight.getDepartureDate().toString();
+                vuelos[i][5] = flight.calculateArrivalDate().toString();
+                vuelos[i][6] = flight.getPlane().getId();
+                vuelos[i][7] = String.valueOf(flight.getNumPassengers());
+                i++;
+            }
+            Arrays.sort(vuelos, (a, b) -> Long.compare(Long.parseLong(a[0]), Long.parseLong(b[0])));
+            return new Response("Refresh succesfully", Status.CREATED, vuelos);
+        } catch (Exception e) {
+            return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

@@ -37,6 +37,10 @@ public class LocationStorage {
         this.locations.add(location);
         return true;
     }
+    
+    public ArrayList<Location> getAll(){
+        return this.locations;
+    }
 
     public Location getLocation(String id) {
         for (Location l : this.locations) {

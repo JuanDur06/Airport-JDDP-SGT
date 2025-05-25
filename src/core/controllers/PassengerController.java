@@ -12,6 +12,8 @@ import core.models.Storage.FlightStorage;
 import core.models.Storage.PassengerStorage;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -259,5 +261,28 @@ public class PassengerController {
         } catch (Exception e) {
             return new Response("Unexpected error occurred", Status.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public static Response refreshPassengerTable() {
+        
+        ArrayList<Passenger> passengers = PassengerStorage.getInstance().getAll();
+        if (passengers == null) {
+            return new Response("Ther is no passengers", Status.BAD_REQUEST);
+        }
+        String[][] pasajeros = new String[passengers.size()][7];
+        int i = 0;
+        for (Passenger passenger : passengers) {
+            pasajeros[i][0] = Long.toString(passenger.getId());
+            pasajeros[i][1] = passenger.getFullname();
+            pasajeros[i][2] = passenger.getBirthDate().toString();
+            pasajeros[i][3] = String.valueOf(passenger.calculateAge());
+            pasajeros[i][4] = passenger.generateFullPhone();
+            pasajeros[i][5] = passenger.getCountry();
+            pasajeros[i][6] = String.valueOf(passenger.getNumFlights());
+            i++;
+        }
+        Arrays.sort(pasajeros, (a, b) -> Long.compare(Long.parseLong(a[0]), Long.parseLong(b[0])));
+        return new Response("Refresh succesfully", Status.CREATED, pasajeros);
+        
     }
 }

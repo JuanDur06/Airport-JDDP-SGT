@@ -37,6 +37,10 @@ public class PlaneStorage {
         return true;
     }
     
+    public ArrayList<Plane> getAll(){
+        return this.planes;
+    }
+    
     public Plane getPlane(String id) {
         for (Plane plane : this.planes) {
             if (plane.getId().equals(id)) {
