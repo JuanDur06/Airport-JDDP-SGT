@@ -207,7 +207,7 @@ public class PassengerController {
 
             // Buscar pasajero existente
             PassengerStorage storage = PassengerStorage.getInstance();
-            Passenger existingPassenger = storage.getPassenger(idLong.intValue());
+            Passenger existingPassenger = storage.getPassenger(idLong);
             if (existingPassenger == null) {
                 return new Response("Passenger with given ID does not exist", Status.NOT_FOUND);
             }
@@ -223,7 +223,6 @@ public class PassengerController {
             return new Response("Passenger updated successfully", Status.OK);
 
         } catch (Exception ex) {
-            ex.printStackTrace();
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
     }
