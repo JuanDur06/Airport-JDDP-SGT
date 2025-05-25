@@ -6,7 +6,9 @@ package core.controllers;
 
 import core.controllers.utils.Response;
 import core.controllers.utils.Status;
+import core.models.Flight;
 import core.models.Passenger;
+import core.models.Storage.FlightStorage;
 import core.models.Storage.PassengerStorage;
 import java.time.DateTimeException;
 import java.time.LocalDate;
@@ -227,4 +229,35 @@ public class PassengerController {
         }
     }
 
+    public static Response addPassengerToFlight(String passengerIdStr, String flightId) {
+        try {
+            long passengerId;
+            try {
+                passengerId = Long.parseLong(passengerIdStr);
+            } catch (NumberFormatException e) {
+                return new Response("Passenger ID must be numeric", Status.BAD_REQUEST);
+            }
+
+            PassengerStorage passengerStorage = PassengerStorage.getInstance();
+            FlightStorage flightStorage = FlightStorage.getInstance();
+
+            Passenger passenger = passengerStorage.getPassenger(passengerId);
+            if (passenger == null) {
+                return new Response("Passenger not found", Status.NOT_FOUND);
+            }
+
+            Flight flight = flightStorage.getFlight(flightId);
+            if (flight == null) {
+                return new Response("Flight not found", Status.NOT_FOUND);
+            }
+
+            passenger.addFlight(flight);
+            flight.addPassenger(passenger);
+
+            return new Response("Passenger added to flight successfully", Status.OK);
+
+        } catch (Exception e) {
+            return new Response("Unexpected error occurred", Status.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
