@@ -1620,13 +1620,13 @@
                           <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jComboBox5" min="-2" max="-2" attributes="0"/>
-                              <Component id="jTextField28" min="-2" pref="130" max="-2" attributes="0"/>
+                              <Component id="txtPassengerIdAddFlight" min="-2" pref="130" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="823" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="jButton12" min="-2" pref="120" max="-2" attributes="0"/>
+                          <Component id="btnAddFlightToPassenger" min="-2" pref="120" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="509" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -1640,7 +1640,7 @@
                                   <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
                                   <Component id="jLabel44" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jTextField28" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtPassengerIdAddFlight" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -1648,14 +1648,14 @@
                               <Component id="jComboBox5" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="288" max="32767" attributes="0"/>
-                          <Component id="jButton12" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Component id="btnAddFlightToPassenger" min="-2" pref="40" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JTextField" name="jTextField28">
+                <Component class="javax.swing.JTextField" name="txtPassengerIdAddFlight">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -1694,7 +1694,7 @@
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                   </AuxValues>
                 </Component>
-                <Component class="javax.swing.JButton" name="jButton12">
+                <Component class="javax.swing.JButton" name="btnAddFlightToPassenger">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Yu Gothic UI" size="18" style="0"/>
@@ -1702,7 +1702,7 @@
                     <Property name="text" type="java.lang.String" value="Add"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton12ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddFlightToPassengerActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>

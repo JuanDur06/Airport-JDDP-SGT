@@ -213,11 +213,11 @@ public class AirportFrame extends javax.swing.JFrame {
         txtPasengerCountryUpdate = new javax.swing.JTextField();
         btnUpdatePassengerInfo = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
-        jTextField28 = new javax.swing.JTextField();
+        txtPassengerIdAddFlight = new javax.swing.JTextField();
         jLabel44 = new javax.swing.JLabel();
         jLabel45 = new javax.swing.JLabel();
         jComboBox5 = new javax.swing.JComboBox<>();
-        jButton12 = new javax.swing.JButton();
+        btnAddFlightToPassenger = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -966,8 +966,8 @@ public class AirportFrame extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Update info", jPanel5);
 
-        jTextField28.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        jTextField28.setEnabled(false);
+        txtPassengerIdAddFlight.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        txtPassengerIdAddFlight.setEnabled(false);
 
         jLabel44.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         jLabel44.setText("ID:");
@@ -978,11 +978,11 @@ public class AirportFrame extends javax.swing.JFrame {
         jComboBox5.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Flight" }));
 
-        jButton12.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
-        jButton12.setText("Add");
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
+        btnAddFlightToPassenger.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+        btnAddFlightToPassenger.setText("Add");
+        btnAddFlightToPassenger.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
+                btnAddFlightToPassengerActionPerformed(evt);
             }
         });
 
@@ -998,11 +998,11 @@ public class AirportFrame extends javax.swing.JFrame {
                 .addGap(79, 79, 79)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField28, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPassengerIdAddFlight, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(823, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAddFlightToPassenger, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(509, 509, 509))
         );
         jPanel6Layout.setVerticalGroup(
@@ -1013,13 +1013,13 @@ public class AirportFrame extends javax.swing.JFrame {
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
                         .addComponent(jLabel44))
-                    .addComponent(jTextField28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPassengerIdAddFlight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel45)
                     .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 288, Short.MAX_VALUE)
-                .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAddFlightToPassenger, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(85, 85, 85))
         );
 
@@ -1623,8 +1623,8 @@ public class AirportFrame extends javax.swing.JFrame {
         String firstname = txtPasengerFirstNameUpdate.getText().trim();
         String lastname = txtPasengerLastNameUpdate.getText().trim();
         String yearStr = txtPasengerYearUpdate.getText().trim();
-        String monthStr = comboBoxPasengerMonthUpdate.getItemAt(MONTH.getSelectedIndex());
-        String dayStr = comboBoxPasengerDayUpdate.getItemAt(DAY.getSelectedIndex());
+        String monthStr = comboBoxPasengerMonthUpdate.getItemAt(comboBoxPasengerMonthUpdate.getSelectedIndex());
+        String dayStr = comboBoxPasengerDayUpdate.getItemAt(comboBoxPasengerDayUpdate.getSelectedIndex());
         String numberCode = txtPasengerCodeUpdate.getText().trim();
         String number = txtPasengerPhoneNumberUpdate.getText().trim();
         String country = txtPasengerCountryUpdate.getText().trim();
@@ -1655,9 +1655,9 @@ public class AirportFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnUpdatePassengerInfoActionPerformed
 
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+    private void btnAddFlightToPassengerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddFlightToPassengerActionPerformed
         // TODO add your handling code here:
-        long passengerId = Long.parseLong(jTextField28.getText());
+        long passengerId = Long.parseLong(txtPassengerIdAddFlight.getText());
         String flightId = jComboBox5.getItemAt(jComboBox5.getSelectedIndex());
 
         Passenger passenger = null;
@@ -1677,7 +1677,7 @@ public class AirportFrame extends javax.swing.JFrame {
 
         passenger.addFlight(flight);
         flight.addPassenger(passenger);
-    }//GEN-LAST:event_jButton12ActionPerformed
+    }//GEN-LAST:event_btnAddFlightToPassengerActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
@@ -1759,10 +1759,10 @@ public class AirportFrame extends javax.swing.JFrame {
             String id = userSelect.getSelectedItem().toString();
             if (!id.equals(userSelect.getItemAt(0))) {
                 txtPasengerIdUpdate.setText(id);
-                jTextField28.setText(id);
+                txtPassengerIdAddFlight.setText(id);
             } else {
                 txtPasengerIdUpdate.setText("");
-                jTextField28.setText("");
+                txtPassengerIdAddFlight.setText("");
             }
         } catch (Exception e) {
         }
@@ -1822,6 +1822,7 @@ public class AirportFrame extends javax.swing.JFrame {
     private javax.swing.JTextField YEAR;
     private javax.swing.JRadioButton administrator;
     private javax.swing.JComboBox<String> arrivalLocationComboBox;
+    private javax.swing.JButton btnAddFlightToPassenger;
     private javax.swing.JButton btnCreateFlight;
     private javax.swing.JButton btnCreateLocation;
     private javax.swing.JButton btnCreatePlane;
@@ -1831,7 +1832,6 @@ public class AirportFrame extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> comboBoxPasengerMonthUpdate;
     private javax.swing.JComboBox<String> departureLocationComboBox;
     private javax.swing.JComboBox<String> flightsDelayedComboBox;
-    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -1914,7 +1914,6 @@ public class AirportFrame extends javax.swing.JFrame {
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
-    private javax.swing.JTextField jTextField28;
     private core.models.PanelRound panelRound1;
     private core.models.PanelRound panelRound2;
     private core.models.PanelRound panelRound3;
@@ -1942,6 +1941,7 @@ public class AirportFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtPassengerCountryPhoneCode;
     private javax.swing.JTextField txtPassengerFirstName;
     private javax.swing.JTextField txtPassengerID;
+    private javax.swing.JTextField txtPassengerIdAddFlight;
     private javax.swing.JTextField txtPassengerPhoneNumber;
     private javax.swing.JTextField txtPassengerlastName;
     private javax.swing.JRadioButton user;

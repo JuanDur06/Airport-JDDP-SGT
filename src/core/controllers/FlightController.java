@@ -104,6 +104,7 @@ public class FlightController {
         }
 
         FlightStorage.getInstance().addFlight(flight);
+        
         return new Response("Flight created successfully.", Status.OK);
     }
 }
