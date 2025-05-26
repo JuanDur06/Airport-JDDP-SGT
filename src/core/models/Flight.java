@@ -4,6 +4,8 @@
  */
 package core.models;
 
+import core.models.fligth.calculateArrivalDate;
+import core.models.fligth.delayFlight;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -104,11 +106,11 @@ public class Flight {
     }
     
     public LocalDateTime calculateArrivalDate() {
-        return departureDate.plusHours(hoursDurationScale).plusHours(hoursDurationArrival).plusMinutes(minutesDurationScale).plusMinutes(minutesDurationArrival);
+        return calculateArrivalDate.calculateArrivalDate(departureDate, hoursDurationScale,  hoursDurationArrival,  minutesDurationScale, minutesDurationArrival);
     }
     
     public void delay(int hours, int minutes) {
-        this.departureDate = this.departureDate.plusHours(hours).plusMinutes(minutes);
+        this.departureDate = delayFlight.delay(this.departureDate, hours, minutes);
     }
     
     public int getNumPassengers() {

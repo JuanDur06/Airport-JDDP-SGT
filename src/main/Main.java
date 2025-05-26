@@ -5,9 +5,10 @@
 package main;
 
 import com.formdev.flatlaf.FlatDarkLaf;
-import core.models.dataLoader.DataLoader;
 import core.views.AirportFrame;
 import javax.swing.UIManager;
+import core.models.dataLoader.*;
+import java.util.List;
 
 /**
  *
@@ -24,7 +25,14 @@ public class Main {
             System.err.println("Failed to initialize LaF");
         }
         try {
-            DataLoader.loadData();
+            DataLoaderManager manager = new DataLoaderManager(List.of(
+                    new LocationDataLoader(),
+                    new PlaneDataLoader(),
+                    new PassengerDataLoader(),
+                    new FlightDataLoader() // debe ir de último porque depende de los anteriores
+            ));
+
+            manager.loadAll();
         } catch (Exception e) {
             System.err.println("Error al cargar datos:");
             e.printStackTrace();

@@ -5,8 +5,10 @@
 package core.models;
 
 import core.models.Flight;
+import core.models.passenger.calculateAge;
+import core.models.passenger.generateFullPhone;
+import core.models.passenger.getNumFlights;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 
 /**
@@ -100,15 +102,16 @@ public class Passenger {
     }
 
     public String generateFullPhone() {
-        return "+" + countryPhoneCode + " " + phone;
+        return generateFullPhone.generateFullPhone(countryPhoneCode, phone);
     }
 
     public int calculateAge() {
-        return Period.between(birthDate, LocalDate.now()).getYears();
+        return calculateAge.calculateAge(birthDate);
     }
 
     public int getNumFlights() {
-        return flights.size();
+        return getNumFlights.getNumFlights(flights);
     }
 
 }
+ 
