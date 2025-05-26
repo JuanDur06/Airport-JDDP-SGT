@@ -51,13 +51,5 @@ public class PassengerStorage {
         return null;
     }
 
-    public boolean delPassenger(int id) {
-        for (Passenger p : this.passengers) {
-            if (p.getId() == id) {
-                this.passengers.remove(p);
-                return true;
-            }
-        }
-        return false;
-    }
+   
 }

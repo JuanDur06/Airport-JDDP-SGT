@@ -50,13 +50,5 @@ public class PlaneStorage {
         return null;
     }
     
-    public boolean delPlane(String id) {
-        for (Plane person : this.planes) {
-            if (person.getId().equals(id)) {
-                this.planes.remove(person);
-                return true;
-            }
-        }
-        return false;
-    }
+    
 }

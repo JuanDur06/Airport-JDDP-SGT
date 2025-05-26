@@ -51,13 +51,5 @@ public class LocationStorage {
         return null;
     }
 
-    public boolean delLocation(int id) {
-        for (Location l : this.locations) {
-            if (l.getAirportId().equals(id)) {
-                this.locations.remove(l);
-                return true;
-            }
-        }
-        return false;
-    }
+    
 }
