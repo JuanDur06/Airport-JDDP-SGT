@@ -14,6 +14,10 @@ import core.controllers.LocationController;
 import core.controllers.PassengerController;
 import core.controllers.PlaneController;
 import core.controllers.utils.Response;
+import core.models.Storage.FlightStorage;
+import core.models.Storage.LocationStorage;
+import core.models.Storage.PassengerStorage;
+import core.models.Storage.PlaneStorage;
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -51,6 +55,7 @@ public class AirportFrame extends javax.swing.JFrame {
         this.generateHours();
         this.generateMinutes();
         this.blockPanels();
+        updateDataFromJson();
     }
 
     private void blockPanels() {
@@ -96,6 +101,50 @@ public class AirportFrame extends javax.swing.JFrame {
         }
     }
 
+    private void updateDataFromJson() {
+        // Limpiar todos los ComboBox para evitar duplicados
+        planeComboBox.removeAllItems();
+        userSelect.removeAllItems();
+        departureLocationComboBox.removeAllItems();
+        arrivalLocationComboBox.removeAllItems();
+        flightsDelayedComboBox.removeAllItems();
+        jComboBox5.removeAllItems();
+
+        // PLANE
+        ArrayList<Plane> planes = PlaneStorage.getInstance().getAll();
+        if (planes != null) {
+            for (Plane pl : planes) {
+                planeComboBox.addItem(pl.getId());
+            }
+        }
+
+        // PASSENGER
+        ArrayList<Passenger> passengers = PassengerStorage.getInstance().getAll();
+        if (passengers != null) {
+            for (Passenger p : passengers) {
+                userSelect.addItem(String.valueOf(p.getId()));
+            }
+        }
+
+        // LOCATION
+        ArrayList<Location> locations = LocationStorage.getInstance().getAll();
+        if (locations != null) {
+            for (Location l : locations) {
+                departureLocationComboBox.addItem(l.getAirportId());
+                arrivalLocationComboBox.addItem(l.getAirportId());
+            }
+        }
+
+        // FLIGHT
+        ArrayList<Flight> flights = FlightStorage.getInstance().getAll();
+        if (flights != null) {
+            for (Flight f : flights) {
+                jComboBox5.addItem(f.getId());
+                flightsDelayedComboBox.addItem(f.getId());
+            }
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

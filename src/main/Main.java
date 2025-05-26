@@ -23,8 +23,6 @@ public class Main {
         } catch (Exception ex) {
             System.err.println("Failed to initialize LaF");
         }
-
-        // --- Cargar los datos ANTES de iniciar la GUI ---
         try {
             DataLoader.loadData();
         } catch (Exception e) {
@@ -32,7 +30,6 @@ public class Main {
             e.printStackTrace();
         }
 
-        // --- Mostrar la ventana en el hilo de interfaz gráfica ---
         java.awt.EventQueue.invokeLater(() -> {
             new AirportFrame().setVisible(true);
         });
