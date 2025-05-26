@@ -12,6 +12,7 @@ import core.models.*;
 import core.models.Storage.FlightStorage;
 import core.models.Storage.LocationStorage;
 import core.models.Storage.PassengerStorage;
+import core.models.Storage.PlaneStorage;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -27,7 +28,8 @@ public class DataLoader {
         FlightStorage flightStorage = FlightStorage.getInstance();
         LocationStorage locationStorage = LocationStorage.getInstance();
         PassengerStorage passengerStorage = PassengerStorage.getInstance();
-
+        PlaneStorage planeStorage = PlaneStorage.getInstance();
+        
         HashMap<String, Location> locationMap = new HashMap<>();
         HashMap<String, Plane> planeMap = new HashMap<>();
 
@@ -62,6 +64,7 @@ public class DataLoader {
             String airline = obj.getString("airline");
 
             Plane plane = new Plane(id, brand, model, maxCapacity, airline);
+            planeStorage.addPlane(plane);
             planeMap.put(id, plane);
         }
 

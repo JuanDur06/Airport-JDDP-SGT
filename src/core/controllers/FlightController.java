@@ -128,8 +128,9 @@ public class FlightController {
                 myFligths[i][0] = flight.getId();
                 myFligths[i][1] = flight.getDepartureDate().toString();
                 myFligths[i][2] = flight.calculateArrivalDate().toString();
+                i++;
             }
-            Arrays.sort(myFligths, (a, b) -> Long.compare(Long.parseLong(a[0]), Long.parseLong(b[0])));
+            Arrays.sort(myFligths, (a, b) -> a[0].compareToIgnoreCase(b[0]));
             return new Response("Refresh succesfully", Status.CREATED, myFligths);
 
         } catch (Exception e) {
@@ -157,11 +158,36 @@ public class FlightController {
                 vuelos[i][7] = String.valueOf(flight.getNumPassengers());
                 i++;
             }
-            Arrays.sort(vuelos, (a, b) -> Long.compare(Long.parseLong(a[0]), Long.parseLong(b[0])));
+            Arrays.sort(vuelos, (a, b) -> a[0].compareToIgnoreCase(b[0]));
             return new Response("Refresh succesfully", Status.CREATED, vuelos);
         } catch (Exception e) {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
     }
 
+    public static Response delayFlight(String flightId, String hours, String minutes) {
+        try {
+            Flight flight;
+            int hoursInt, minutesInt;
+
+            flight = FlightStorage.getInstance().getFlight(flightId);
+            if (flight == null) {
+                return new Response("Please select a flight", Status.BAD_REQUEST);
+            }
+            try {
+                hoursInt = Integer.parseInt(hours);
+            } catch (NumberFormatException ex) {
+                return new Response("Please select a hour", Status.BAD_REQUEST);
+            }
+            try {
+                minutesInt = Integer.parseInt(minutes);
+            } catch (NumberFormatException ex) {
+                return new Response("Please select a minute", Status.BAD_REQUEST);
+            }
+            flight.delay(hoursInt, minutesInt);
+            return new Response("Flight successfully delayed", Status.CREATED);
+        } catch (Exception e) {
+            return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

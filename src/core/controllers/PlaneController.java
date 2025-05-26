@@ -82,7 +82,7 @@ public class PlaneController {
                
                 i++;
             }
-            Arrays.sort(aviones, (a, b) -> Long.compare(Long.parseLong(a[0]), Long.parseLong(b[0])));
+            Arrays.sort(aviones, (a, b) -> a[0].compareToIgnoreCase(b[0]));
             return new Response("Refresh succesfully", Status.CREATED, aviones);
         } catch (Exception e) {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
